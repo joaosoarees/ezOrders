@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   margin-top: 42px;
@@ -10,6 +10,35 @@ export const Container = styled.div`
     grid-template-columns: 1fr 1fr;
   }
 `;
+
+const cardStatusVariants = {
+  PREPARING: css`
+    background: #F6A609;
+    color: #FFF;
+
+    header small {
+      background: #FFF;
+      color: #0A100D;
+    }
+
+    select {
+      border-color: #FFF;
+    }
+  `,
+  DONE: css`
+    background: #2ac769;
+    color: #fff;
+
+    header small {
+      background: #fff;
+      color: #0a100D;
+    }
+
+    select {
+      border-color: #fff;
+    }
+  `,
+};
 
 export const Card = styled.div`
   background: #fff;
@@ -51,4 +80,6 @@ export const Card = styled.div`
     background: #fff;
     font-size: 14px;
   }
+
+  ${({ status }) => cardStatusVariants[status] || null}
 `;
