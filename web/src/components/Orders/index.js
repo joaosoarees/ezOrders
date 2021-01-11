@@ -1,52 +1,36 @@
+import { useEffect, useState } from 'react';
+
 import { Container, Card } from './styles';
 
 export default function Orders() {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch('http://localhost:3005/orders');
+      const orders = await res.json();
+      setOrders(orders);
+    })();
+  }, []);
+
   return (
     <Container>
-      <Card status="DONE">
-        <header>
-          <h3>Pedido <strong>#91238</strong></h3>
-          <small>MESA #01</small>
-        </header>
+      {orders.map((order) => (
+        <Card key={order._id} status={order.status}>
+          <header>
+            <h3>Pedido <strong>#{order._id.substr(0, 15)}</strong></h3>
+            <small>MESA #{order.table}</small>
+          </header>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc nec magna venenatis, rhoncus orci nec, euismod turpis.</p>
+          <p>{order.description}</p>
 
-        <select>
-          <option value="PENDING">Pendente</option>
-          <option value="PREPARING">Preparando</option>
-          <option value="DONE">Finalizado</option>
-        </select>
-      </Card>
-
-      <Card>
-        <header>
-          <h3>Pedido <strong>#91238</strong></h3>
-          <small>MESA #01</small>
-        </header>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc nec magna venenatis, rhoncus orci nec, euismod turpis.</p>
-
-        <select>
-          <option value="PENDING">Pendente</option>
-          <option value="PREPARING">Preparando</option>
-          <option value="DONE">Finalizado</option>
-        </select>
-      </Card>
-
-      <Card status="PREPARING">
-        <header>
-          <h3>Pedido <strong>#91238</strong></h3>
-          <small>MESA #01</small>
-        </header>
-
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc nec magna venenatis, rhoncus orci nec, euismod turpis.</p>
-
-        <select>
-          <option value="PENDING">Pendente</option>
-          <option value="PREPARING">Preparando</option>
-          <option value="DONE">Finalizado</option>
-        </select>
-      </Card>
+          <select value={order.status}>
+            <option value="PENDING">Pendente</option>
+            <option value="PREPARING">Preparando</option>
+            <option value="DONE">Finalizado</option>
+          </select>
+        </Card>
+      ))}
     </Container>
   );
 }
