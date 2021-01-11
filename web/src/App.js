@@ -1,6 +1,8 @@
 import GlobalStyle from './styles/GlobalStyle';
 import { Container } from './styles';
 
+import Orders from './components/Orders'
+
 import logo from './images/logo.svg';
 
 function App() {
@@ -9,6 +11,7 @@ function App() {
       <GlobalStyle />
       <Container>
         <img src={logo} alt="Logo ezOrders"/>
+        <Orders />
       </Container>
     </>
   );
