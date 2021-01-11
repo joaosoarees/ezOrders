@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import socketIOClient from 'socket.io-client';
 
 import { Container, Card } from './styles';
 
@@ -11,6 +12,16 @@ export default function Orders() {
       const orders = await res.json();
       setOrders(orders);
     })();
+
+    const socket = socketIOClient('http://localhost:3005', {
+      transports: ['websocket']
+    });
+
+    socket.on('newOrder', (order) => {
+      setOrders(
+        (prevState) =>  [order, ...prevState],
+      );
+    });
   }, []);
 
   return (
